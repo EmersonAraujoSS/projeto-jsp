@@ -5,6 +5,15 @@ public class gitteste {
     private String nome;
     private String email;
     private String telefone;
+    private String endereco;
+
+    public String getEndereco() {
+        return endereco;
+    }
+
+    public void setEndereco(String endereco) {
+        this.endereco = endereco;
+    }
 
     public String getEmail() {
         return email;
