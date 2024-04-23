@@ -7,6 +7,33 @@ public class gitteste {
     private String telefone;
     private String endereco;
     private String cidade;
+    private String estado;
+    private String cep;
+    private String logradouro;
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
+
+    public String getCep() {
+        return cep;
+    }
+
+    public void setCep(String cep) {
+        this.cep = cep;
+    }
+
+    public String getLogradouro() {
+        return logradouro;
+    }
+
+    public void setLogradouro(String logradouro) {
+        this.logradouro = logradouro;
+    }
 
     public String getCidade() {
         return cidade;
