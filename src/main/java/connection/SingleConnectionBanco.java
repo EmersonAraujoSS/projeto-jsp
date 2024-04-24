@@ -8,7 +8,7 @@ import java.sql.DriverManager;
 
 public class SingleConnectionBanco {
 
-    private static String banco = "jdbc:sqlserver://FNXAMDB01;databaseName=DB_TESTE_DEV?autoReconnect=true;encrypt=true;trustServerCertificate=false";
+    private static String banco = "jdbc:sqlserver://FNXAMDB01;databaseName=DB_TESTE_DEV;autoReconnect=true;encrypt=false;trustServerCertificate=false";
     private static String username = "dev_teste";
     private static String senha = "dev_teste";
     private static Connection connection = null;

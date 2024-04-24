@@ -1,0 +1,15 @@
+USE [DB_TESTE_DEV]
+GO
+
+INSERT INTO [dbo].[model_login_jsp]
+           ([login],[senha])
+     VALUES
+           ('admin', 'admin')
+GO
+
+
+
+
+
+
+select * from dbo.model_login_jsp;

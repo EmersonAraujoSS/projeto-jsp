@@ -1,6 +1,7 @@
 package servlets;
 
 
+import dao.LoginRepositoryDao;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -17,6 +18,8 @@ public class ServletLogin extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
 
+    private LoginRepositoryDao loginRepositoryDao = new LoginRepositoryDao();
+
     public ServletLogin() {
 
     }
@@ -32,33 +35,38 @@ public class ServletLogin extends HttpServlet {
         String senha = request.getParameter("senha");
         String url = request.getParameter("url");
 
-        if (login != null && !login.isEmpty() && senha != null && !senha.isEmpty()){  /* isEmpty = SIGNIFICA DIFERENTE DE VAZIO*/
+        try {
 
-            ModelLogin modelLogin = new ModelLogin();
-            modelLogin.setLogin(login);
-            modelLogin.setSenha(senha);
+                if (login != null && !login.isEmpty() && senha != null && !senha.isEmpty()){  /* isEmpty = SIGNIFICA DIFERENTE DE VAZIO*/
 
-            if (modelLogin.getLogin().equalsIgnoreCase("admin") && modelLogin.getSenha().equalsIgnoreCase("admin")){   /*Simulando login*/
+                    ModelLogin modelLogin = new ModelLogin();
+                    modelLogin.setLogin(login);
+                    modelLogin.setSenha(senha);
 
-                request.getSession().setAttribute("usuario", modelLogin.getLogin()); /*manter esse usuário logado no sistema*/
+                    if (loginRepositoryDao.validarLogin(modelLogin)){   /*Simulando login*/
 
-                if (url == null || url.equals("null")){
-                    url = "pages/principal.jsp";
+                        request.getSession().setAttribute("usuario", modelLogin.getLogin()); /*manter esse usuário logado no sistema*/
+
+                        if (url == null || url.equals("null")){
+                            url = "pages/principal.jsp";
+                        }
+
+                        RequestDispatcher redirecionar = request.getRequestDispatcher("pages/principal.jsp"); /*redirecionar para uma página*/
+                        redirecionar.forward(request, response);
+
+                    }else {
+                        RequestDispatcher redirecionar = request.getRequestDispatcher(url);
+                        request.setAttribute("msg", "Login ou senha incorretos");
+                        redirecionar.forward(request, response);
+                    }
+
+                }else {
+                    RequestDispatcher redirecionar = request.getRequestDispatcher("/index.jsp");
+                    request.setAttribute("msg", "Login ou senha incorretos");
+                    redirecionar.forward(request, response);  // Encaminhar para a página JSP
                 }
-
-                RequestDispatcher redirecionar = request.getRequestDispatcher("pages/principal.jsp"); /*redirecionar para uma página*/
-                redirecionar.forward(request, response);
-
-            }else {
-                RequestDispatcher redirecionar = request.getRequestDispatcher(url);
-                request.setAttribute("msg", "Login ou senha incorretos");
-                redirecionar.forward(request, response);
-            }
-
-        }else {
-            RequestDispatcher redirecionar = request.getRequestDispatcher("/index.jsp");
-            request.setAttribute("msg", "Login ou senha incorretos");
-            redirecionar.forward(request, response);  // Encaminhar para a página JSP
+        }catch (Exception e){
+            e.printStackTrace();
         }
 
     }
